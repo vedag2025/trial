@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - SeoulVeda Korean Wellness</title>
+    <meta name="description" content="Learn about SeoulVeda's mission to bring authentic Korean wellness traditions to the modern world. Our story, values, and commitment to quality.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: '#9CAF88',
+                        warmwhite: '#FEFEFE',
+                        charcoal: '#2C2C2C',
+                        softbeige: '#F5F2E8',
+                        dustyrose: '#D4A5A5',
+                        deepforest: '#4A5D23',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'korean': ['Noto Sans KR', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .timeline-item {
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-4px);
+        }
+        
+        .value-card {
+            background: linear-gradient(135deg, rgba(156,175,136,0.1), rgba(245,242,232,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .cart-counter {
+            animation: pulse 0.3s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .contact-form {
+            background: linear-gradient(135deg, #FEFEFE, #F5F2E8);
+        }
+    </style>
+</head>
+<body class="font-body text-charcoal bg-warmwhite">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-warmwhite/95 backdrop-blur-md z-50 border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-display font-semibold text-deepforest">SeoulVeda</h1>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-charcoal hover:text-sage transition-colors font-medium">Home</a>
+                    <a href="products.html" class="text-charcoal hover:text-sage transition-colors font-medium">Products</a>
+                    <a href="bulcha.html" class="text-spicyorange font-semibold">Bulcha</a>
+                    <a href="about.html" class="text-sage font-semibold">About</a>
+                    <a href="blogs.html" class="text-charcoal hover:text-sage transition-colors font-medium">Blogs</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="cart-btn" class="relative p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-dustyrose text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-warmwhite border-t border-sage/20">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Home</a>
+                <a href="products.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Products</a>
+                <a href="bulcha.html" class="block py-2 text-spicyorange font-semibold">Bulcha</a>
+                <a href="about.html" class="block py-2 text-sage font-semibold">About</a>
+                <a href="blogs.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center parallax-bg" style="background-image: url('resources/hero-wellness.jpg');">
+        <div class="absolute inset-0 bg-black/40"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-5xl md:text-7xl font-display font-bold text-white mb-6 leading-tight">
+                Our Story
+            </h2>
+            <p class="text-xl md:text-2xl text-white/90 mb-8 font-light max-w-3xl mx-auto">
+                Bridging ancient Korean wellness wisdom with modern beauty needs, SeoulVeda brings you authentic products that honor tradition while delivering results.
+            </p>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h3 class="text-4xl font-display font-bold text-charcoal mb-6">Our Mission</h3>
+                    <p class="text-lg text-charcoal/80 mb-6 leading-relaxed">
+                        At SeoulVeda, we believe that true beauty comes from the harmony of inner wellness and outer care. Our mission is to share the time-tested wisdom of Korean wellness traditions with the world, making authentic, effective products accessible to everyone seeking natural beauty solutions.
+                    </p>
+                    <p class="text-lg text-charcoal/80 mb-8 leading-relaxed">
+                        We are committed to preserving the integrity of traditional Korean ingredients while incorporating modern scientific understanding to create products that truly work for contemporary lifestyles.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 bg-sage rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-charcoal">Authentic Korean ingredients sourced responsibly</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 bg-sage rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-charcoal">Science-backed formulations</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 bg-sage rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-charcoal">Sustainable and ethical practices</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <img src="resources/product-ginseng-serum.jpg" alt="Korean Wellness" class="rounded-2xl shadow-xl w-full h-96 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="py-20 bg-softbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Our Values</h3>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">The principles that guide everything we do at SeoulVeda.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="value-card p-8 rounded-2xl text-center">
+                    <div class="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white">🌿</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-4">Authenticity</h4>
+                    <p class="text-charcoal/70 leading-relaxed">We honor traditional Korean wellness practices by using authentic ingredients and time-tested formulations that have been passed down through generations.</p>
+                </div>
+                
+                <div class="value-card p-8 rounded-2xl text-center">
+                    <div class="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white">🔬</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-4">Innovation</h4>
+                    <p class="text-charcoal/70 leading-relaxed">While respecting tradition, we embrace modern scientific research to enhance the effectiveness and safety of our products.</p>
+                </div>
+                
+                <div class="value-card p-8 rounded-2xl text-center">
+                    <div class="w-16 h-16 bg-sage rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white">🌍</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-4">Sustainability</h4>
+                    <p class="text-charcoal/70 leading-relaxed">Committed to protecting our planet through sustainable sourcing, eco-friendly packaging, and ethical business practices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Timeline -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Our Journey</h3>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">From a small idea to a global wellness brand, here's how SeoulVeda came to be.</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline Line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-sage/30"></div>
+                
+                <div class="space-y-16">
+                    <!-- 2020 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="text-xl font-semibold text-charcoal mb-2">The Beginning</h4>
+                                <p class="text-charcoal/70">Founded with a vision to share Korean wellness traditions with the world, starting with research and ingredient sourcing.</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-sage rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-2xl font-bold text-sage">2020</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2021 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="text-2xl font-bold text-sage">2021</div>
+                        </div>
+                        <div class="w-8 h-8 bg-sage rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="text-xl font-semibold text-charcoal mb-2">First Product Launch</h4>
+                                <p class="text-charcoal/70">Launched our signature Ginseng Renewal Serum after extensive testing and formulation development.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2022 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="text-xl font-semibold text-charcoal mb-2">Expanding the Line</h4>
+                                <p class="text-charcoal/70">Added skincare, supplements, and wellness teas to create a complete Korean wellness experience.</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-sage rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-2xl font-bold text-sage">2022</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2023 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="text-2xl font-bold text-sage">2023</div>
+                        </div>
+                        <div class="w-8 h-8 bg-sage rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="text-xl font-semibold text-charcoal mb-2">Global Recognition</h4>
+                                <p class="text-charcoal/70">Received international awards for product quality and sustainable practices, expanding to global markets.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2024 -->
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                                <h4 class="text-xl font-semibold text-charcoal mb-2">Community Building</h4>
+                                <p class="text-charcoal/70">Launched educational initiatives and wellness programs to help customers understand Korean beauty philosophy.</p>
+                            </div>
+                        </div>
+                        <div class="w-8 h-8 bg-gold rounded-full border-4 border-white shadow-lg z-10"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="text-2xl font-bold text-gold">2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-20 bg-softbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Meet Our Team</h3>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">The passionate individuals behind SeoulVeda's mission to share Korean wellness with the world.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+                    <div class="w-24 h-24 bg-sage rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-2xl text-white font-semibold">MJ</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Min-Ji Park</h4>
+                    <p class="text-sage font-medium mb-4">Founder & CEO</p>
+                    <p class="text-charcoal/70 leading-relaxed">Born in Seoul, Min-Ji grew up with traditional Korean wellness practices. Her grandmother's skincare recipes inspired her mission to share these ancient secrets with the world.</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+                    <div class="w-24 h-24 bg-sage rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-2xl text-white font-semibold">DK</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Dr. Kim</h4>
+                    <p class="text-sage font-medium mb-4">Head of Research</p>
+                    <p class="text-charcoal/70 leading-relaxed">With a PhD in Cosmetic Chemistry, Dr. Kim bridges traditional Korean ingredients with modern scientific validation, ensuring our products are both authentic and effective.</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+                    <div class="w-24 h-24 bg-sage rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-2xl text-white font-semibold">SY</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Soo-Yeon Lee</h4>
+                    <p class="text-sage font-medium mb-4">Sustainability Director</p>
+                    <p class="text-charcoal/70 leading-relaxed">Soo-Yeon ensures our commitment to sustainability through ethical sourcing, eco-friendly packaging, and partnerships with local Korean farming communities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Get in Touch</h3>
+                <p class="text-lg text-charcoal/70">We'd love to hear from you. Share your wellness journey or ask us anything about Korean beauty traditions.</p>
+            </div>
+            
+            <div class="contact-form rounded-3xl p-8 md:p-12 shadow-xl">
+                <form id="contact-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-charcoal mb-2">Name</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-sage/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-charcoal mb-2">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-sage/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-charcoal mb-2">Subject</label>
+                        <select id="subject" name="subject" class="w-full px-4 py-3 border border-sage/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage">
+                            <option>General Inquiry</option>
+                            <option>Product Question</option>
+                            <option>Wholesale Partnership</option>
+                            <option>Press & Media</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-charcoal mb-2">Message</label>
+                        <textarea id="message" name="message" rows="5" required class="w-full px-4 py-3 border border-sage/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage resize-none"></textarea>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="bg-sage text-white px-8 py-3 rounded-full font-semibold hover:bg-deepforest transition-colors">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-2xl font-display font-semibold text-sage mb-4">SeoulVeda</h4>
+                    <p class="text-white/70 mb-4">Authentic Korean wellness products for radiant skin and inner balance.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">Instagram</a>
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">Facebook</a>
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">YouTube</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Products</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Skincare</a></li>
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Supplements</a></li>
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Tea & Beverages</a></li>
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Beauty Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Company</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="about.html" class="hover:text-sage transition-colors">About Us</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Our Story</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Sustainability</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Support</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#" class="hover:text-sage transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Shipping</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
+                <p>&copy; 2024 SeoulVeda. All rights reserved. | Crafted with ❤️ for Korean wellness</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b border-sage/20">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-semibold text-charcoal">Shopping Cart</h3>
+                <button id="close-cart" class="text-charcoal hover:text-sage transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+            <div id="empty-cart" class="text-center text-charcoal/60 py-12">
+                <svg class="w-16 h-16 mx-auto mb-4 text-sage/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                </svg>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        
+        <div id="cart-footer" class="p-6 border-t border-sage/20 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-charcoal">Total:</span>
+                <span id="cart-total" class="text-xl font-bold text-sage">$0</span>
+            </div>
+            <button class="w-full bg-sage text-white py-3 rounded-full font-semibold hover:bg-deepforest transition-colors">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 z-40"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>

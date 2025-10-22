@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulcha - Vegan Ramen for India | SeoulVeda</title>
+    <meta name="description" content="Discover Bulcha - authentic vegan ramen crafted for Indian tastes. Plant-based noodles with traditional spices and modern nutrition.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: '#9CAF88',
+                        warmwhite: '#FEFEFE',
+                        charcoal: '#2C2C2C',
+                        softbeige: '#F5F2E8',
+                        dustyrose: '#D4A5A5',
+                        deepforest: '#4A5D23',
+                        gold: '#D4AF37',
+                        spicyorange: '#E67E22',
+                        turmeric: '#F39C12'
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'korean': ['Noto Sans KR', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .bulcha-hero {
+            background: linear-gradient(135deg, #E67E22, #F39C12, #9CAF88);
+            background-size: 400% 400%;
+            animation: spiceFlow 8s ease-in-out infinite;
+        }
+        
+        @keyframes spiceFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .flavor-card {
+            transition: all 0.3s ease;
+        }
+        
+        .flavor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .ingredient-showcase {
+            background: linear-gradient(135deg, rgba(156,175,136,0.1), rgba(243,156,18,0.1));
+        }
+        
+        .cart-counter {
+            animation: pulse 0.3s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .testimonial-card {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nutrition-badge {
+            background: linear-gradient(135deg, #9CAF88, #F39C12);
+        }
+    </style>
+</head>
+<body class="font-body text-charcoal bg-warmwhite">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-warmwhite/95 backdrop-blur-md z-50 border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-display font-semibold text-deepforest">SeoulVeda</h1>
+                    <span class="ml-2 text-spicyorange font-semibold">Bulcha</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-charcoal hover:text-sage transition-colors font-medium">Home</a>
+                    <a href="products.html" class="text-charcoal hover:text-sage transition-colors font-medium">Products</a>
+                    <a href="bulcha.html" class="text-spicyorange font-semibold">Bulcha</a>
+                    <a href="about.html" class="text-charcoal hover:text-sage transition-colors font-medium">About</a>
+                    <a href="blogs.html" class="text-charcoal hover:text-sage transition-colors font-medium">Blogs</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="cart-btn" class="relative p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-dustyrose text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-warmwhite border-t border-sage/20">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Home</a>
+                <a href="products.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Products</a>
+                <a href="bulcha.html" class="block py-2 text-spicyorange font-semibold">Bulcha</a>
+                <a href="about.html" class="block py-2 text-charcoal hover:text-sage transition-colors">About</a>
+                <a href="blogs.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center bulcha-hero overflow-hidden">
+        <div class="absolute inset-0 bg-black/30"></div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <div class="mb-6">
+                        <span class="inline-block bg-spicyorange text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                            🌱 100% Plant-Based
+                        </span>
+                        <h2 class="text-5xl md:text-7xl font-display font-bold text-white mb-6 leading-tight">
+                            <span class="splitting" data-splitting>Bulcha</span><br>
+                            <span class="splitting text-gold" data-splitting>Vegan Ramen</span>
+                        </h2>
+                        <p class="text-xl md:text-2xl text-white/90 mb-8 font-light">
+                            Authentic Japanese ramen crafted for Indian tastes<br>
+                            <span class="text-turmeric font-semibold">Plant-based nutrition meets traditional spices</span>
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#flavors" class="bg-spicyorange text-white px-8 py-4 rounded-full font-semibold hover:bg-turmeric transition-all duration-300 transform hover:scale-105">
+                            Explore Flavors
+                        </a>
+                        <button id="bulcha-quiz-btn" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-spicyorange transition-all duration-300">
+                            Find Your Flavor
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <img src="resources/bulcha-hero-ramen.jpg" alt="Bulcha Vegan Ramen" class="rounded-2xl shadow-2xl w-full h-96 object-cover">
+                    <div class="absolute -top-4 -right-4 bg-spicyorange text-white px-4 py-2 rounded-full text-sm font-semibold">
+                        New Launch
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Bulcha -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Why Choose Bulcha?</h3>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">The perfect fusion of Japanese tradition and Indian flavors, crafted for the modern plant-based lifestyle.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-spicyorange rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl text-white">🌱</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-4">100% Plant-Based</h4>
+                    <p class="text-charcoal/70 leading-relaxed">Made with premium wheat noodles and authentic vegetable broths. No animal products, ever.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-turmeric rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl text-white">🌶️</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-4">Indian Spices</h4>
+                    <p class="text-charcoal/70 leading-relaxed">Infused with traditional Indian spices like turmeric, cumin, and coriander for that familiar comfort.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-sage rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl text-white">💪</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-4">High Protein</h4>
+                    <p class="text-charcoal/70 leading-relaxed">Packed with plant-based protein from soy, peas, and ancient grains for sustained energy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Flavor Varieties -->
+    <section id="flavors" class="py-20 ingredient-showcase">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Our Flavor Collection</h3>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">Discover our range of vegan ramen flavors, each crafted to satisfy different spice preferences and taste profiles.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Mild Flavor -->
+                <div class="flavor-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="resources/bulcha-hero-ramen.jpg" alt="Mild Miso Ramen" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-sage text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Mild
+                        </div>
+                        <div class="absolute top-4 right-4 bg-gold text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Best Seller
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold text-charcoal mb-2">Creamy Miso Delight</h4>
+                        <p class="text-charcoal/70 text-sm mb-4">Gentle miso broth with coconut milk, perfect for those who prefer milder flavors</p>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-gold">★★★★★</div>
+                            <span class="text-sm text-charcoal/60 ml-2">(234 reviews)</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-sage">₹89</span>
+                            <div class="nutrition-badge text-white px-2 py-1 rounded-full text-xs">
+                                18g Protein
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-charcoal/60 mb-4">
+                            <span>🌶️ Spice Level: 1/5</span>
+                            <span>⏱️ 3 min prep</span>
+                        </div>
+                        <button class="add-to-cart w-full bg-spicyorange text-white py-3 rounded-full font-semibold hover:bg-turmeric transition-colors" data-product="bulcha-mild" data-price="89">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Medium Spice -->
+                <div class="flavor-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="resources/bulcha-spicy-ramen.jpg" alt="Spicy Ramen" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-turmeric text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Medium Spice
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold text-charcoal mb-2">Desi Spice Fusion</h4>
+                        <p class="text-charcoal/70 text-sm mb-4">Traditional Indian spices meet Japanese ramen with turmeric, cumin, and coriander</p>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-gold">★★★★★</div>
+                            <span class="text-sm text-charcoal/60 ml-2">(189 reviews)</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-sage">₹95</span>
+                            <div class="nutrition-badge text-white px-2 py-1 rounded-full text-xs">
+                                20g Protein
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-charcoal/60 mb-4">
+                            <span>🌶️ Spice Level: 3/5</span>
+                            <span>⏱️ 3 min prep</span>
+                        </div>
+                        <button class="add-to-cart w-full bg-spicyorange text-white py-3 rounded-full font-semibold hover:bg-turmeric transition-colors" data-product="bulcha-medium" data-price="95">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Hot Spice -->
+                <div class="flavor-card bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="resources/bulcha-spicy-ramen.jpg" alt="Extra Spicy Ramen" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-dustyrose text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Extra Hot
+                        </div>
+                        <div class="absolute top-4 right-4 bg-deepforest text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Limited
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold text-charcoal mb-2">Fire Dragon Ramen</h4>
+                        <p class="text-charcoal/70 text-sm mb-4">Bold and fiery with ghost pepper and traditional Indian chili blends</p>
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-gold">★★★★☆</div>
+                            <span class="text-sm text-charcoal/60 ml-2">(156 reviews)</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl font-bold text-sage">₹99</span>
+                            <div class="nutrition-badge text-white px-2 py-1 rounded-full text-xs">
+                                19g Protein
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-charcoal/60 mb-4">
+                            <span>🌶️ Spice Level: 5/5</span>
+                            <span>⏱️ 3 min prep</span>
+                        </div>
+                        <button class="add-to-cart w-full bg-spicyorange text-white py-3 rounded-full font-semibold hover:bg-turmeric transition-colors" data-product="bulcha-hot" data-price="99">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ingredients Showcase -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h3 class="text-4xl font-display font-bold text-charcoal mb-6">Pure Ingredients, Perfect Taste</h3>
+                    <p class="text-lg text-charcoal/80 mb-8 leading-relaxed">
+                        Every bowl of Bulcha is crafted with carefully selected ingredients that honor both Japanese tradition and Indian palates. Our commitment to quality means no artificial flavors, preservatives, or MSG - just pure, wholesome goodness.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-sage rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">🌾</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-charcoal mb-2">Premium Wheat Noodles</h4>
+                                <p class="text-charcoal/70">Made from high-quality wheat flour for the perfect texture and bite</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-turmeric rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">🌶️</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-charcoal mb-2">Authentic Indian Spices</h4>
+                                <p class="text-charcoal/70">Turmeric, cumin, coriander, and other traditional spices for authentic flavor</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-spicyorange rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">🥬</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-charcoal mb-2">Real Vegetables</h4>
+                                <p class="text-charcoal/70">Dehydrated vegetables that rehydrate perfectly in hot water</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 bg-dustyrose rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">💪</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-charcoal mb-2">Plant-Based Protein</h4>
+                                <p class="text-charcoal/70">Soy and pea protein for sustained energy and muscle support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <img src="resources/bulcha-ingredients.jpg" alt="Bulcha Ingredients" class="rounded-2xl shadow-xl w-full h-96 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Benefits -->
+    <section class="py-20 ingredient-showcase">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">Nutrition That Nourishes</h3>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">Every bowl is packed with essential nutrients to fuel your day and support your wellness journey.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-spicyorange rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white font-bold">18g</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Plant Protein</h4>
+                    <p class="text-charcoal/70">Complete amino acid profile for muscle support and sustained energy</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-turmeric rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white font-bold">0mg</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Cholesterol</h4>
+                    <p class="text-charcoal/70">Heart-healthy formula with zero cholesterol and trans fats</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-sage rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white font-bold">8g</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Fiber</h4>
+                    <p class="text-charcoal/70">Supports digestive health and keeps you feeling satisfied longer</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-dustyrose rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl text-white">🧘</span>
+                    </div>
+                    <h4 class="text-xl font-semibold text-charcoal mb-2">Mindful Eating</h4>
+                    <p class="text-charcoal/70">Guilt-free comfort food that aligns with your values and lifestyle</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-display font-bold text-charcoal mb-4">What Our Customers Say</h3>
+                <p class="text-lg text-charcoal/70">Real reviews from Bulcha lovers across India</p>
+            </div>
+            
+            <div class="splide" id="bulcha-testimonials">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="testimonial-card p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                                <div class="flex text-gold mb-4 justify-center">★★★★★</div>
+                                <p class="text-lg text-charcoal/80 mb-6 text-center italic">"Finally, a vegan ramen that actually tastes like home! The Desi Spice Fusion reminds me of my mom's cooking but with a Japanese twist. Absolutely love it!"</p>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-spicyorange rounded-full mx-auto mb-3 flex items-center justify-center text-white font-semibold">P</div>
+                                    <p class="font-semibold text-charcoal">Priya S.</p>
+                                    <p class="text-sm text-charcoal/60">Mumbai, Maharashtra</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="splide__slide">
+                            <div class="testimonial-card p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                                <div class="flex text-gold mb-4 justify-center">★★★★★</div>
+                                <p class="text-lg text-charcoal/80 mb-6 text-center italic">"As a fitness enthusiast, I appreciate the high protein content. The Mild Miso is perfect for my post-workout meals. So convenient and delicious!"</p>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-turmeric rounded-full mx-auto mb-3 flex items-center justify-center text-white font-semibold">R</div>
+                                    <p class="font-semibold text-charcoal">Rahul K.</p>
+                                    <p class="text-sm text-charcoal/60">Bangalore, Karnataka</p>
+                                </div>
+                            </div>
+                        </li>
+                        
+                        <li class="splide__slide">
+                            <div class="testimonial-card p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                                <div class="flex text-gold mb-4 justify-center">★★★★★</div>
+                                <p class="text-lg text-charcoal/80 mb-6 text-center italic">"The Fire Dragon Ramen is not for the faint-hearted! Perfect spice level and the flavors are incredible. Best instant ramen I've ever had."</p>
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-dustyrose rounded-full mx-auto mb-3 flex items-center justify-center text-white font-semibold">A</div>
+                                    <p class="font-semibold text-charcoal">Anita M.</p>
+                                    <p class="text-sm text-charcoal/60">Delhi, NCR</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gift Collection -->
+    <section class="py-20 bg-softbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h3 class="text-4xl font-display font-bold text-charcoal mb-6">Bulcha Gift Collection</h3>
+                    <p class="text-lg text-charcoal/80 mb-8 leading-relaxed">
+                        Share the love of plant-based ramen with our beautifully curated gift boxes. Perfect for festivals, housewarmings, or as a thoughtful gesture for the ramen lovers in your life.
+                    </p>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-spicyorange rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-charcoal">All three flavor varieties</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-turmeric rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-charcoal">Premium wooden chopsticks</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-sage rounded-full flex items-center justify-center mr-4">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span class="text-charcoal">Recipe cards and spice guide</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <span class="text-3xl font-bold text-sage">₹299</span>
+                            <span class="text-lg text-charcoal/60 line-through ml-2">₹399</span>
+                        </div>
+                        <span class="bg-dustyrose text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            25% OFF
+                        </span>
+                    </div>
+                    
+                    <button class="add-to-cart w-full bg-spicyorange text-white py-4 rounded-full font-semibold hover:bg-turmeric transition-colors" data-product="bulcha-gift-box" data-price="299">
+                        Add Gift Box to Cart
+                    </button>
+                </div>
+                
+                <div class="relative">
+                    <img src="resources/bulcha-gift-box.jpg" alt="Bulcha Gift Box" class="rounded-2xl shadow-xl w-full h-96 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-deepforest">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-3xl font-display font-bold text-white mb-4">Stay Spicy</h3>
+            <p class="text-lg text-white/80 mb-8">Get exclusive access to new Bulcha flavors, recipes, and special offers delivered to your inbox.</p>
+            
+            <form id="bulcha-newsletter-form" class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" id="bulcha-email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-full text-charcoal focus:outline-none focus:ring-2 focus:ring-spicyorange" required>
+                    <button type="submit" class="bg-spicyorange text-white px-6 py-3 rounded-full font-semibold hover:bg-turmeric transition-colors">
+                        Subscribe
+                    </button>
+                </div>
+                <p class="text-sm text-white/60 mt-4">Join 10,000+ Bulcha lovers across India</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-2xl font-display font-semibold text-spicyorange mb-4">SeoulVeda Bulcha</h4>
+                    <p class="text-white/70 mb-4">Authentic vegan ramen crafted for Indian tastes. Plant-based nutrition with traditional spices.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white/70 hover:text-spicyorange transition-colors">Instagram</a>
+                        <a href="#" class="text-white/70 hover:text-spicyorange transition-colors">Facebook</a>
+                        <a href="#" class="text-white/70 hover:text-spicyorange transition-colors">YouTube</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Flavors</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#flavors" class="hover:text-spicyorange transition-colors">Creamy Miso Delight</a></li>
+                        <li><a href="#flavors" class="hover:text-spicyorange transition-colors">Desi Spice Fusion</a></li>
+                        <li><a href="#flavors" class="hover:text-spicyorange transition-colors">Fire Dragon Ramen</a></li>
+                        <li><a href="#" class="hover:text-spicyorange transition-colors">Gift Collection</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Company</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="about.html" class="hover:text-spicyorange transition-colors">About Bulcha</a></li>
+                        <li><a href="about.html" class="hover:text-spicyorange transition-colors">Our Story</a></li>
+                        <li><a href="about.html" class="hover:text-spicyorange transition-colors">Sustainability</a></li>
+                        <li><a href="about.html" class="hover:text-spicyorange transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Support</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#" class="hover:text-spicyorange transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-spicyorange transition-colors">Shipping</a></li>
+                        <li><a href="#" class="hover:text-spicyorange transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-spicyorange transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
+                <p>&copy; 2024 SeoulVeda Bulcha. All rights reserved. | Crafted with ❤️ for plant-based living</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b border-sage/20">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-semibold text-charcoal">Shopping Cart</h3>
+                <button id="close-cart" class="text-charcoal hover:text-sage transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+            <div id="empty-cart" class="text-center text-charcoal/60 py-12">
+                <svg class="w-16 h-16 mx-auto mb-4 text-sage/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                </svg>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        
+        <div id="cart-footer" class="p-6 border-t border-sage/20 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-charcoal">Total:</span>
+                <span id="cart-total" class="text-xl font-bold text-sage">₹0</span>
+            </div>
+            <button class="w-full bg-spicyorange text-white py-3 rounded-full font-semibold hover:bg-turmeric transition-colors">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 z-40"></div>
+
+    <script src="main.js"></script>
+    <script>
+        // Bulcha-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Bulcha testimonials slider
+            if (typeof Splide !== 'undefined') {
+                new Splide('#bulcha-testimonials', {
+                    type: 'loop',
+                    perPage: 1,
+                    autoplay: true,
+                    interval: 5000,
+                    arrows: false,
+                    pagination: true
+                }).mount();
+            }
+            
+            // Bulcha newsletter form
+            const bulchaNewsletterForm = document.getElementById('bulcha-newsletter-form');
+            if (bulchaNewsletterForm) {
+                bulchaNewsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('bulcha-email').value;
+                    alert(`Welcome to the Bulcha family! You'll receive spicy updates at ${email}.`);
+                    this.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

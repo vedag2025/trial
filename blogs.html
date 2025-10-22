@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blogs - SeoulVeda Korean Wellness</title>
+    <meta name="description" content="Discover Korean wellness wisdom through our blog. Learn about traditional ingredients, skincare routines, and holistic beauty practices.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: '#9CAF88',
+                        warmwhite: '#FEFEFE',
+                        charcoal: '#2C2C2C',
+                        softbeige: '#F5F2E8',
+                        dustyrose: '#D4A5A5',
+                        deepforest: '#4A5D23',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'korean': ['Noto Sans KR', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .blog-card {
+            transition: all 0.3s ease;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .category-filter {
+            transition: all 0.3s ease;
+        }
+        
+        .category-filter.active {
+            background: #9CAF88;
+            color: white;
+        }
+        
+        .featured-article {
+            background: linear-gradient(135deg, rgba(156,175,136,0.1), rgba(245,242,232,0.1));
+        }
+        
+        .reading-progress {
+            height: 4px;
+            background: #9CAF88;
+            transition: width 0.3s ease;
+        }
+        
+        .cart-counter {
+            animation: pulse 0.3s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .search-highlight {
+            background: rgba(156,175,136,0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="font-body text-charcoal bg-warmwhite">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-warmwhite/95 backdrop-blur-md z-50 border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-display font-semibold text-deepforest">SeoulVeda</h1>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-charcoal hover:text-sage transition-colors font-medium">Home</a>
+                    <a href="products.html" class="text-charcoal hover:text-sage transition-colors font-medium">Products</a>
+                    <a href="bulcha.html" class="text-spicyorange font-semibold">Bulcha</a>
+                    <a href="about.html" class="text-charcoal hover:text-sage transition-colors font-medium">About</a>
+                    <a href="blogs.html" class="text-sage font-semibold">Blogs</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="cart-btn" class="relative p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-dustyrose text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-warmwhite border-t border-sage/20">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Home</a>
+                <a href="products.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Products</a>
+                <a href="bulcha.html" class="block py-2 text-spicyorange font-semibold">Bulcha</a>
+                <a href="about.html" class="block py-2 text-charcoal hover:text-sage transition-colors">About</a>
+                <a href="blogs.html" class="block py-2 text-sage font-semibold">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-24 pb-12 bg-softbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal mb-4">Wellness Wisdom</h2>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">Discover the secrets of Korean wellness through our expert guides, ingredient spotlights, and holistic beauty practices.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filter -->
+    <section class="py-8 bg-warmwhite border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-6 items-center justify-between">
+                <!-- Search -->
+                <div class="w-full md:w-1/2">
+                    <div class="relative">
+                        <input type="text" id="blog-search" placeholder="Search articles..." class="w-full px-4 py-3 pl-12 border border-sage/30 rounded-full focus:outline-none focus:ring-2 focus:ring-sage">
+                        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-charcoal/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <!-- Categories -->
+                <div class="flex flex-wrap gap-3">
+                    <button class="category-filter active px-4 py-2 rounded-full text-sm font-medium border border-sage/30" data-category="all">
+                        All Articles
+                    </button>
+                    <button class="category-filter px-4 py-2 rounded-full text-sm font-medium border border-sage/30" data-category="wellness">
+                        Korean Wellness
+                    </button>
+                    <button class="category-filter px-4 py-2 rounded-full text-sm font-medium border border-sage/30" data-category="ingredients">
+                        Ingredients
+                    </button>
+                    <button class="category-filter px-4 py-2 rounded-full text-sm font-medium border border-sage/30" data-category="skincare">
+                        Skincare Guides
+                    </button>
+                    <button class="category-filter px-4 py-2 rounded-full text-sm font-medium border border-sage/30" data-category="lifestyle">
+                        Lifestyle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Article -->
+    <section class="py-16 bg-softbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="featured-article rounded-3xl p-8 md:p-12 shadow-xl">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-sage text-white px-3 py-1 rounded-full text-sm font-medium">Featured</span>
+                            <span class="ml-4 text-charcoal/60 text-sm">5 min read</span>
+                        </div>
+                        <h3 class="text-3xl md:text-4xl font-display font-bold text-charcoal mb-6">
+                            The Ancient Wisdom of Korean Ginseng in Modern Skincare
+                        </h3>
+                        <p class="text-lg text-charcoal/80 mb-8 leading-relaxed">
+                            Discover how this powerful root has been used for centuries in Korean beauty rituals and why it remains a cornerstone ingredient in modern skincare formulations.
+                        </p>
+                        <a href="#" class="inline-flex items-center bg-sage text-white px-6 py-3 rounded-full font-semibold hover:bg-deepforest transition-colors">
+                            Read Article
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <img src="resources/product-ginseng-serum.jpg" alt="Korean Ginseng" class="rounded-2xl shadow-lg w-full h-80 object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="py-20 bg-warmwhite">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-12">
+                <h3 class="text-3xl font-display font-bold text-charcoal">Latest Articles</h3>
+                <div class="flex items-center text-charcoal/60">
+                    <span id="articles-count">15</span>
+                    <span class="ml-1">articles</span>
+                </div>
+            </div>
+            
+            <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article 1 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-lg" data-category="wellness">
+                    <div class="relative">
+                        <img src="resources/product-green-tea-oil.jpg" alt="Green Tea Benefits" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-sage text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Korean Wellness
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-charcoal/60 mb-3">
+                            <span>3 min read</span>
+                            <span class="mx-2">•</span>
+                            <span>Dec 15, 2024</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-charcoal mb-3 leading-tight">
+                            Green Tea: The Antioxidant Powerhouse Your Skin Needs
+                        </h4>
+                        <p class="text-charcoal/70 mb-4 leading-relaxed">
+                            Explore the incredible benefits of green tea for skin health, from fighting free radicals to soothing inflammation and balancing oil production.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-sage rounded-full flex items-center justify-center text-white text-sm font-semibold mr-3">
+                                    MJ
+                                </div>
+                                <span class="text-sm text-charcoal/70">Min-Ji Park</span>
+                            </div>
+                            <button class="text-sage hover:text-deepforest transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Article 2 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-lg" data-category="ingredients">
+                    <div class="relative">
+                        <img src="resources/product-rice-toner.jpg" alt="Rice Water Benefits" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-dustyrose text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Ingredients
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-charcoal/60 mb-3">
+                            <span>4 min read</span>
+                            <span class="mx-2">•</span>
+                            <span>Dec 12, 2024</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-charcoal mb-3 leading-tight">
+                            Rice Water: The Traditional Korean Beauty Secret
+                        </h4>
+                        <p class="text-charcoal/70 mb-4 leading-relaxed">
+                            Learn how rice water has been used for centuries in Korean beauty routines and discover easy ways to incorporate it into your daily regimen.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-dustyrose rounded-full flex items-center justify-center text-white text-sm font-semibold mr-3">
+                                    DK
+                                </div>
+                                <span class="text-sm text-charcoal/70">Dr. Kim</span>
+                            </div>
+                            <button class="text-sage hover:text-deepforest transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Article 3 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-lg" data-category="skincare">
+                    <div class="relative">
+                        <img src="resources/product-snail-cream.jpg" alt="Korean Skincare Routine" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-gold text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Skincare Guides
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-charcoal/60 mb-3">
+                            <span>6 min read</span>
+                            <span class="mx-2">•</span>
+                            <span>Dec 10, 2024</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-charcoal mb-3 leading-tight">
+                            Building Your Perfect Korean Skincare Routine
+                        </h4>
+                        <p class="text-charcoal/70 mb-4 leading-relaxed">
+                            A comprehensive guide to creating a Korean-inspired skincare routine tailored to your specific skin type and concerns.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center text-white text-sm font-semibold mr-3">
+                                    SY
+                                </div>
+                                <span class="text-sm text-charcoal/70">Soo-Yeon Lee</span>
+                            </div>
+                            <button class="text-sage hover:text-deepforest transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Article 4 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-lg" data-category="wellness">
+                    <div class="relative">
+                        <img src="resources/product-matcha-powder.jpg" alt="Matcha Benefits" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-sage text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Korean Wellness
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-charcoal/60 mb-3">
+                            <span>5 min read</span>
+                            <span class="mx-2">•</span>
+                            <span>Dec 8, 2024</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-charcoal mb-3 leading-tight">
+                            Matcha: More Than Just a Trendy Drink
+                        </h4>
+                        <p class="text-charcoal/70 mb-4 leading-relaxed">
+                            Discover the incredible health benefits of matcha green tea and how this ancient ingredient can transform your wellness routine.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-sage rounded-full flex items-center justify-center text-white text-sm font-semibold mr-3">
+                                    MJ
+                                </div>
+                                <span class="text-sm text-charcoal/70">Min-Ji Park</span>
+                            </div>
+                            <button class="text-sage hover:text-deepforest transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Article 5 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-lg" data-category="lifestyle">
+                    <div class="relative">
+                        <img src="resources/product-jade-roller.jpg" alt="Korean Beauty Tools" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-deepforest text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Lifestyle
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-charcoal/60 mb-3">
+                            <span>4 min read</span>
+                            <span class="mx-2">•</span>
+                            <span>Dec 5, 2024</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-charcoal mb-3 leading-tight">
+                            The Art of Korean Facial Massage and Beauty Tools
+                        </h4>
+                        <p class="text-charcoal/70 mb-4 leading-relaxed">
+                            Learn traditional Korean facial massage techniques and how to use beauty tools like jade rollers and gua sha for radiant skin.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-deepforest rounded-full flex items-center justify-center text-white text-sm font-semibold mr-3">
+                                    MJ
+                                </div>
+                                <span class="text-sm text-charcoal/70">Min-Ji Park</span>
+                            </div>
+                            <button class="text-sage hover:text-deepforest transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Article 6 -->
+                <article class="blog-card bg-white rounded-2xl overflow-hidden shadow-lg" data-category="ingredients">
+                    <div class="relative">
+                        <img src="resources/product-propolis-essence.jpg" alt="Propolis Benefits" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4 bg-dustyrose text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Ingredients
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-charcoal/60 mb-3">
+                            <span>3 min read</span>
+                            <span class="mx-2">•</span>
+                            <span>Dec 3, 2024</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-charcoal mb-3 leading-tight">
+                            Propolis: Nature's Healing Power for Your Skin
+                        </h4>
+                        <p class="text-charcoal/70 mb-4 leading-relaxed">
+                            Explore the remarkable healing properties of propolis and how this bee-derived ingredient can transform your skincare routine.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-dustyrose rounded-full flex items-center justify-center text-white text-sm font-semibold mr-3">
+                                    DK
+                                </div>
+                                <span class="text-sm text-charcoal/70">Dr. Kim</span>
+                            </div>
+                            <button class="text-sage hover:text-deepforest transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- Load More -->
+            <div class="text-center mt-12">
+                <button id="load-more-articles" class="bg-sage text-white px-8 py-3 rounded-full font-semibold hover:bg-deepforest transition-colors">
+                    Load More Articles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-deepforest">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-3xl font-display font-bold text-white mb-4">Stay Updated</h3>
+            <p class="text-lg text-white/80 mb-8">Get the latest Korean wellness tips, ingredient spotlights, and exclusive content delivered to your inbox.</p>
+            
+            <form id="blog-newsletter-form" class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" id="blog-email" placeholder="Enter your email" class="flex-1 px-4 py-3 rounded-full text-charcoal focus:outline-none focus:ring-2 focus:ring-sage" required>
+                    <button type="submit" class="bg-sage text-white px-6 py-3 rounded-full font-semibold hover:bg-sage/90 transition-colors">
+                        Subscribe
+                    </button>
+                </div>
+                <p class="text-sm text-white/60 mt-4">Weekly wellness wisdom, unsubscribe anytime.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-2xl font-display font-semibold text-sage mb-4">SeoulVeda</h4>
+                    <p class="text-white/70 mb-4">Authentic Korean wellness products for radiant skin and inner balance.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">Instagram</a>
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">Facebook</a>
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">YouTube</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Products</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Skincare</a></li>
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Supplements</a></li>
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Tea & Beverages</a></li>
+                        <li><a href="products.html" class="hover:text-sage transition-colors">Beauty Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Company</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="about.html" class="hover:text-sage transition-colors">About Us</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Our Story</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Sustainability</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Support</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#" class="hover:text-sage transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Shipping</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
+                <p>&copy; 2024 SeoulVeda. All rights reserved. | Crafted with ❤️ for Korean wellness</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b border-sage/20">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-semibold text-charcoal">Shopping Cart</h3>
+                <button id="close-cart" class="text-charcoal hover:text-sage transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+            <div id="empty-cart" class="text-center text-charcoal/60 py-12">
+                <svg class="w-16 h-16 mx-auto mb-4 text-sage/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                </svg>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        
+        <div id="cart-footer" class="p-6 border-t border-sage/20 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-charcoal">Total:</span>
+                <span id="cart-total" class="text-xl font-bold text-sage">$0</span>
+            </div>
+            <button class="w-full bg-sage text-white py-3 rounded-full font-semibold hover:bg-deepforest transition-colors">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 z-40"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>

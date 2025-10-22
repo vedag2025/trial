@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - SeoulVeda Korean Wellness</title>
+    <meta name="description" content="Shop authentic Korean wellness products. Skincare, supplements, teas, and beauty tools with traditional ingredients for modern results.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: '#9CAF88',
+                        warmwhite: '#FEFEFE',
+                        charcoal: '#2C2C2C',
+                        softbeige: '#F5F2E8',
+                        dustyrose: '#D4A5A5',
+                        deepforest: '#4A5D23',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        'display': ['Playfair Display', 'serif'],
+                        'body': ['Inter', 'sans-serif'],
+                        'korean': ['Noto Sans KR', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .filter-sidebar {
+            background: linear-gradient(135deg, #FEFEFE, #F5F2E8);
+        }
+        
+        .price-range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: #E5E7EB;
+            outline: none;
+        }
+        
+        .price-range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9CAF88;
+            cursor: pointer;
+        }
+        
+        .price-range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #9CAF88;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .cart-counter {
+            animation: pulse 0.3s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .filter-tag {
+            background: rgba(156,175,136,0.1);
+            border: 1px solid #9CAF88;
+        }
+        
+        .filter-tag.active {
+            background: #9CAF88;
+            color: white;
+        }
+    </style>
+</head>
+<body class="font-body text-charcoal bg-warmwhite">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-warmwhite/95 backdrop-blur-md z-50 border-b border-sage/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-display font-semibold text-deepforest">SeoulVeda</h1>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-charcoal hover:text-sage transition-colors font-medium">Home</a>
+                    <a href="products.html" class="text-sage font-semibold">Products</a>
+                    <a href="bulcha.html" class="text-spicyorange font-semibold">Bulcha</a>
+                    <a href="about.html" class="text-charcoal hover:text-sage transition-colors font-medium">About</a>
+                    <a href="blogs.html" class="text-charcoal hover:text-sage transition-colors font-medium">Blogs</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button id="cart-btn" class="relative p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                        </svg>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-dustyrose text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden p-2 text-charcoal hover:text-sage transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-warmwhite border-t border-sage/20">
+            <div class="px-4 py-2 space-y-2">
+                <a href="index.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Home</a>
+                <a href="products.html" class="block py-2 text-sage font-semibold">Products</a>
+                <a href="bulcha.html" class="block py-2 text-spicyorange font-semibold">Bulcha</a>
+                <a href="about.html" class="block py-2 text-charcoal hover:text-sage transition-colors">About</a>
+                <a href="blogs.html" class="block py-2 text-charcoal hover:text-sage transition-colors">Blogs</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-24 pb-12 bg-softbeige">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-display font-bold text-charcoal mb-4">Our Products</h2>
+                <p class="text-lg text-charcoal/70 max-w-2xl mx-auto">Discover authentic Korean wellness products crafted with traditional ingredients for modern results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Filter Sidebar -->
+                <div class="lg:w-1/4">
+                    <div class="filter-sidebar rounded-2xl p-6 shadow-lg sticky top-24">
+                        <h3 class="text-xl font-semibold text-charcoal mb-6">Filters</h3>
+                        
+                        <!-- Search -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-charcoal mb-2">Search Products</label>
+                            <input type="text" id="search-input" placeholder="Search..." class="w-full px-3 py-2 border border-sage/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage">
+                        </div>
+                        
+                        <!-- Categories -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-charcoal mb-3">Categories</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="category-filter" value="skincare" checked>
+                                    <span class="ml-2 text-sm">Skincare</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="category-filter" value="supplements" checked>
+                                    <span class="ml-2 text-sm">Supplements</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="category-filter" value="tea" checked>
+                                    <span class="ml-2 text-sm">Tea & Beverages</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="category-filter" value="tools" checked>
+                                    <span class="ml-2 text-sm">Beauty Tools</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Ingredients -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-charcoal mb-3">Key Ingredients</label>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="filter-tag px-3 py-1 rounded-full text-sm" data-ingredient="ginseng">Ginseng</button>
+                                <button class="filter-tag px-3 py-1 rounded-full text-sm" data-ingredient="green-tea">Green Tea</button>
+                                <button class="filter-tag px-3 py-1 rounded-full text-sm" data-ingredient="rice">Rice Water</button>
+                                <button class="filter-tag px-3 py-1 rounded-full text-sm" data-ingredient="snail">Snail Mucin</button>
+                                <button class="filter-tag px-3 py-1 rounded-full text-sm" data-ingredient="matcha">Matcha</button>
+                                <button class="filter-tag px-3 py-1 rounded-full text-sm" data-ingredient="propolis">Propolis</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Range -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-charcoal mb-3">Price Range</label>
+                            <div class="px-2">
+                                <input type="range" id="price-range" class="price-range-slider w-full" min="0" max="150" value="150">
+                                <div class="flex justify-between text-sm text-charcoal/60 mt-2">
+                                    <span>$0</span>
+                                    <span id="price-value">$150</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sort -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-charcoal mb-2">Sort By</label>
+                            <select id="sort-select" class="w-full px-3 py-2 border border-sage/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-sage">
+                                <option value="featured">Featured</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="rating">Highest Rated</option>
+                                <option value="newest">Newest</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Clear Filters -->
+                        <button id="clear-filters" class="w-full bg-sage/10 text-sage py-2 rounded-lg hover:bg-sage hover:text-white transition-colors">
+                            Clear All Filters
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="lg:w-3/4">
+                    <!-- Active Filters -->
+                    <div id="active-filters" class="mb-6 hidden">
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-sm font-medium text-charcoal">Active filters:</span>
+                            <div id="filter-tags" class="flex flex-wrap gap-2">
+                                <!-- Filter tags will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Count -->
+                    <div class="mb-6">
+                        <p class="text-charcoal/70"><span id="products-count">21</span> products found</p>
+                    </div>
+                    
+                    <!-- Products Grid -->
+                    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <!-- Products will be populated by JavaScript -->
+                    </div>
+                    
+                    <!-- Load More -->
+                    <div class="text-center mt-12">
+                        <button id="load-more" class="bg-sage text-white px-8 py-3 rounded-full font-semibold hover:bg-deepforest transition-colors hidden">
+                            Load More Products
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-2xl font-display font-semibold text-sage mb-4">SeoulVeda</h4>
+                    <p class="text-white/70 mb-4">Authentic Korean wellness products for radiant skin and inner balance.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">Instagram</a>
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">Facebook</a>
+                        <a href="#" class="text-white/70 hover:text-sage transition-colors">YouTube</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Products</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#" class="hover:text-sage transition-colors">Skincare</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Supplements</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Tea & Beverages</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Beauty Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Company</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="about.html" class="hover:text-sage transition-colors">About Us</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Our Story</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Sustainability</a></li>
+                        <li><a href="about.html" class="hover:text-sage transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-4">Support</h5>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#" class="hover:text-sage transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Shipping</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Returns</a></li>
+                        <li><a href="#" class="hover:text-sage transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-white/60">
+                <p>&copy; 2024 SeoulVeda. All rights reserved. | Crafted with ❤️ for Korean wellness</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50">
+        <div class="p-6 border-b border-sage/20">
+            <div class="flex items-center justify-between">
+                <h3 class="text-xl font-semibold text-charcoal">Shopping Cart</h3>
+                <button id="close-cart" class="text-charcoal hover:text-sage transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+            <div id="empty-cart" class="text-center text-charcoal/60 py-12">
+                <svg class="w-16 h-16 mx-auto mb-4 text-sage/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9m-9 0V19a2 2 0 002 2h7a2 2 0 002-2v-4"></path>
+                </svg>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        
+        <div id="cart-footer" class="p-6 border-t border-sage/20 hidden">
+            <div class="flex items-center justify-between mb-4">
+                <span class="font-semibold text-charcoal">Total:</span>
+                <span id="cart-total" class="text-xl font-bold text-sage">$0</span>
+            </div>
+            <button class="w-full bg-sage text-white py-3 rounded-full font-semibold hover:bg-deepforest transition-colors">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 opacity-0 invisible transition-all duration-300 z-40"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>
